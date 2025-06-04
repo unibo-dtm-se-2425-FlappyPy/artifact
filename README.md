@@ -1,3 +1,88 @@
+# FlappyPy
+
+A Python implementation of the classic Flappy Bird game using Pygame.
+
+## Features
+
+- Classic Flappy Bird gameplay
+- Simple and intuitive controls (Space bar to jump)
+- Score tracking
+- Game states (Menu, Playing, Game Over)
+- Smooth physics-based movement
+- Collision detection
+
+## Installation
+
+1. Make sure you have Python 3.12.1 installed (using pyenv):
+
+   ```bash
+   pyenv install 3.12.1
+   pyenv local 3.12.1
+   ```
+
+2. Create and activate a virtual environment:
+
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Unix/macOS
+   # or
+   .venv\Scripts\activate  # On Windows
+   ```
+
+3. Install the required dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Running the Game
+
+To start the game, run:
+
+```bash
+python -m FlappyPy
+```
+
+### Controls
+
+- Press SPACE to start the game
+- Press SPACE to make the bird jump
+- Press SPACE to restart after game over
+
+## Development
+
+### Project Structure
+
+```
+FlappyPy/
+├── game/              # Game module
+│   ├── constants.py   # Game constants
+│   ├── game.py        # Main game class
+│   ├── bird.py        # Bird class
+│   ├── pipe.py        # Pipe class
+│   └── utils.py       # Utility functions
+├── __init__.py        # Package initialization
+└── __main__.py        # Entry point
+```
+
+### Running Tests
+
+```bash
+python -m unittest discover -s test -t .
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
+
 # Python project template
 
 A simple template of a Python project, with a rigid file structure, and predisposition for unit testing and release on PyPi.
@@ -17,9 +102,10 @@ A simple template of a Python project, with a rigid file structure, and predispo
 - Automatic dependencies updates via [Renovate](https://docs.renovatebot.com/)
 - Automatic conversion of `TODO` comments into GitHub issues via the `alstr/todo-to-issue-action`
 
-## Project structure 
+## Project structure
 
 Overview:
+
 ```bash
 <root directory>
 ├── -FlappyPy/             # main package (should be named after your project)
@@ -44,16 +130,17 @@ Overview:
 
 1. Use this template to create a new GitHub repository, say `-FlappyPy`
     - this name will also be used to identify the package on PyPi
-        + so, we suggest choosing a name which has not been used on PyPi, yet
-        + we also suggest choosing a name which is a valid Python package name (i.e. `using_snake_case`)
+        - so, we suggest choosing a name which has not been used on PyPi, yet
+        - we also suggest choosing a name which is a valid Python package name (i.e. `using_snake_case`)
 
 2. Clone the `-FlappyPy` repository
 
-3. Open a shell into your local `-FlappyPy` directory and run 
+3. Open a shell into your local `-FlappyPy` directory and run
+
     ```bash
     ./rename-template.sh -FlappyPy
-    ``` 
-    
+    ```
+
     This will coherently rename the template's project name with the one chosen by you (i.e. `-FlappyPy`, in this example)
 
 4. Commit & push
@@ -65,14 +152,14 @@ Overview:
 7. Check the Python version and OS tests should be run on in CI, by looking the file `.github/workflows/check.yml`
 
 8. Add your runtime dependencies to `requirements.txt`
-    + and development-only dependencies here `requirements-dev.txt`
+    - and development-only dependencies here `requirements-dev.txt`
 
 9. Set your project's release metadata and dependencies by editing `setup.py`
 
 10. Change the assignee for pull-requests for automatic dependency updates by editing `renovate.json`
-    + currently defaults to @gciatto
+    - currently defaults to @gciatto
 
-11. Add your PyPi credentials as secrets of the GitHub repository 
+11. Add your PyPi credentials as secrets of the GitHub repository
     - `PYPI_USERNAME` (resp. `PYPI_PASSWORD`) for your username (resp. password)
     - this may require you to register on PyPi first
 
@@ -87,6 +174,7 @@ Overview:
 ### Run your code as an application
 
 This will execute the file `-FlappyPy/__main__.py`:
+
 ```bash
 python -m -FlappyPy 
 ```
@@ -117,11 +205,13 @@ Tags are assumed to consist of [semantic versioning](https://semver.org/) string
 So, to release version `X.Y.Z`, developers must:
 
 1. tag a commit on the `master`/`main`/`develop` branch, using `X.Y.Z` as the tag label
+
     ```bash
     git tag -a 'X.Y.Z' -m <a message here describing the version>
     ```
 
 2. push the tag
+
     ```bash
     git push --follow-tags
     ```
@@ -131,5 +221,6 @@ After the release, users will be able to install your code via Pip.
 
 > Non-tagged commits pushed on the `master`/`main`/`develop` branch will trigger __dev releases__.
 > Dev releases are automatically tagged as `X.Y.Y.devN`, where
+>
 > - `X.Y.Y` is the value of the __most recent__ version tag
-> - `N` is the amount of commits following the most recent version tag 
+> - `N` is the amount of commits following the most recent version tag
