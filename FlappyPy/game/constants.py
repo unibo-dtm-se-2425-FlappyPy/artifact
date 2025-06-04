@@ -1,0 +1,34 @@
+"""
+Constants for the FlappyPy game.
+"""
+
+# Window settings
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 600
+FPS = 60
+
+# Bird settings
+BIRD_WIDTH = 40
+BIRD_HEIGHT = 30
+BIRD_START_X = WINDOW_WIDTH // 3
+BIRD_START_Y = WINDOW_HEIGHT // 2
+GRAVITY = 0.5
+JUMP_STRENGTH = -10
+
+# Pipe settings
+PIPE_WIDTH = 80
+PIPE_GAP = 200
+PIPE_SPEED = 3
+PIPE_SPAWN_INTERVAL = 1500  # milliseconds
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+RED = (255, 0, 0)
+
+# Game states
+GAME_STATE_MENU = 0
+GAME_STATE_PLAYING = 1
+GAME_STATE_GAME_OVER = 2

@@ -12,10 +12,12 @@ version_file = here / 'VERSION'
 long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 # Get dependencies from the requirements.txt file
-dependencies = (here / 'requirements.txt').read_text(encoding='utf-8').replace("==", ">=").splitlines()
+dependencies = (here / 'requirements.txt').read_text(
+    encoding='utf-8').replace("==", ">=").splitlines()
 
 # Get Python version from .python-version file
-python_version = ">=" + (here / '.python-version').read_text(encoding='utf-8').strip()
+python_version = ">=" + \
+    (here / '.python-version').read_text(encoding='utf-8').strip()
 
 
 def format_git_describe_version(version):
@@ -30,7 +32,8 @@ def format_git_describe_version(version):
 
 def get_version_from_git():
     try:
-        process = subprocess.run(["git", "describe", "--tags"], cwd=str(here), check=True, capture_output=True)
+        process = subprocess.run(
+            ["git", "describe", "--tags"], cwd=str(here), check=True, capture_output=True)
         version = process.stdout.decode('utf-8').strip()
         version = format_git_describe_version(version)
         with version_file.open('w') as f:
@@ -80,40 +83,37 @@ class GetMinimumPythonVersion(distutils.cmd.Command):
         print(".".join(python_version[2:].split(".")[:2]))
 
 
-url = 'https://github.com/aequitas-aod/-FlappyPy'
+url = 'https://github.com/unibo-dtm-se-2425-FlappyPy/FlappyPy'
 
 
 setup(
-    name='-FlappyPy',  # Required
+    name='FlappyPy',  # Required
     version=version,
-    description='Description of the project here',
+    description='A Python implementation of the classic Flappy Bird game',
     license='Apache 2.0 License',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url=url,
-    author='Name Surname',
-    author_email='name.surname@organization.domain',
+    author='Nima Boubanian',
+    author_email='nima.boubanian@studio.unibo.it',  # Update this with your email
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
-        'Topic :: Software Development :: Libraries',
-        'Topic :: Scientific/Engineering :: Artificial Intelligence',
+        'Intended Audience :: End Users/Desktop',
+        'Topic :: Games/Entertainment :: Arcade',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3 :: Only'
+        'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: 3.12',
     ],
-    keywords='aeuitas, horizon2020, xai, bias',  # Optional
-    # package_dir={'': 'src'},  # Optional
+    keywords='game, flappy bird, pygame, arcade',  # Optional
     packages=find_packages(),  # Required
     include_package_data=True,
     python_requires=python_version,
     install_requires=dependencies,
     zip_safe=False,
-    platforms="Independant",
+    platforms="Independent",
     project_urls={  # Optional
         'Bug Reports': f'{url}/issues',
-        # 'Funding': 'https://donate.pypi.org',
-        # 'Say Thanks!': 'http://saythanks.io/to/example',
         'Source': url,
     },
     cmdclass={
