@@ -4,12 +4,12 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('FlappyPy')
 
-# this is the initial module of your app
+# this is the initial module of the app
 # this is executed whenever some client-code is calling `import FlappyPy` or `from FlappyPy import ...`
-# put your main classes here, eg:
+# put the main classes here:
 class MyClass:
     def my_method(self):
-        return "Hello World"
+        return "Hello buddy! You will play FlappyPy soon!"
 
 
 # let this be the last line of this file
