@@ -140,3 +140,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Development tools and temporary files
+dev-tools/
+*.tmp
+*.test
+*_temp.py
+*_test_*.py
