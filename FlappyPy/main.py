@@ -102,8 +102,12 @@ def main():
     # Create the bird
     bird = Bird()
     
-    # Create one test pipe
-    test_pipe = Pipe(PIPE_X_START, WINDOW_HEIGHT // 2)
+    # Create multiple test pipes
+    pipes = [
+        Pipe(PIPE_X_START, WINDOW_HEIGHT // 2),
+        Pipe(PIPE_X_START + 250, WINDOW_HEIGHT // 3),
+        Pipe(PIPE_X_START + 500, WINDOW_HEIGHT - 100)
+    ]
 
     # Game loop
     running = True
@@ -120,13 +124,15 @@ def main():
         bird.update()
         
         # Update the pipes movement
-        test_pipe.update()
+        for pipe in pipes:
+            pipe.update()
         
         # Fill the screen with the background color
         screen.fill(BACKGROUND_COLOR)
         
-        # Draw the pipe
-        test_pipe.draw(screen)
+        # Draw the pipes
+        for pipe in pipes:
+            pipe.draw(screen)
 
         # Draw the bird
         bird.draw(screen)
