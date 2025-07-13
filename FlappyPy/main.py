@@ -33,6 +33,19 @@ class Bird:
         """Update the bird's position based on physics"""
         self.velocity += self.gravity
         self.y += self.velocity
+        self.check_boundaries()
+    
+    def check_boundaries(self):
+        """Prevent the bird from flying off screen edges"""
+        # Top boundary
+        if self.y < 0:
+            self.y = 0
+            self.velocity = 0
+        
+        # Bottom boundary
+        if self.y + self.height > WINDOW_HEIGHT:
+            self.y = WINDOW_HEIGHT - self.height
+            self.velocity = 0
     
     def draw(self, screen):
         """Draw the bird on the screen"""
