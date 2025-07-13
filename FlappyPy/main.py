@@ -17,6 +17,32 @@ BIRD_COLOR = (255, 255, 0)  # Yellow
 BIRD_START_X = 50
 BIRD_START_Y = WINDOW_HEIGHT // 2
 
+# Pipe constants
+PIPE_WIDTH = 70
+PIPE_COLOR = (0, 128, 0)  # Green
+PIPE_GAP = 150  # Gap between top and bottom pipes
+PIPE_X_START = WINDOW_WIDTH  # Start just off-screen right
+
+# Pipe class
+class Pipe:
+    """Class representing pipes as obstacles in the game"""
+    
+    def __init__(self, x, gap_center_y):
+        self.x = x
+        self.width = PIPE_WIDTH
+        self.gap_center_y = gap_center_y
+        self.gap_size = PIPE_GAP
+        
+        # Calculate pipe hights
+        self.top_height = gap_center_y - (self.gap_size // 2)
+        self.bottom_y = gap_center_y + (self.gap_size // 2)
+        self.bottom_height = WINDOW_HEIGHT - self.bottom_y
+    
+    def draw(self, screen):
+        """Draw both top and bottom pipes"""
+        pygame.draw.rect(screen, PIPE_COLOR, (self.x, 0, self.width, self.top_height))  # Top pipe
+        pygame.draw.rect(screen, PIPE_COLOR, (self.x, self.bottom_y, self.width, self.bottom_height))  # Bottom pipe
+
 # Bird class
 class Bird:
     """Class representing the bird in the game"""
@@ -70,6 +96,9 @@ def main():
 
     # Create the bird
     bird = Bird()
+    
+    # Create one test pipe
+    test_pipe = Pipe(PIPE_X_START // 2, WINDOW_HEIGHT // 2)
 
     # Game loop
     running = True
@@ -87,6 +116,9 @@ def main():
         
         # Fill the screen with the background color
         screen.fill(BACKGROUND_COLOR)
+        
+        # Draw the pipe
+        test_pipe.draw(screen)
 
         # Draw the bird
         bird.draw(screen)
