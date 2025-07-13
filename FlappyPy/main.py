@@ -1,6 +1,7 @@
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="pygame.pkgdata")
 
+import random
 import pygame
 import sys
 
@@ -22,6 +23,10 @@ PIPE_WIDTH = 70
 PIPE_COLOR = (0, 128, 0)  # Green
 PIPE_GAP = 150  # Gap between top and bottom pipes
 PIPE_X_START = WINDOW_WIDTH  # Start just off-screen right
+
+# Pipe generation
+PIPE_SPAWN_INTERVAL = 120 # Frames between pipe spawns (~2s at 60 FPS)
+SAFE_MARGIN = 80 # Keeps gaps fully within the screen
 
 # Pipe class
 class Pipe:
@@ -108,6 +113,9 @@ def main():
         Pipe(PIPE_X_START + 250, WINDOW_HEIGHT // 3),
         Pipe(PIPE_X_START + 500, WINDOW_HEIGHT - 100)
     ]
+    
+    # Frame counter for pipe spawning
+    frames_since_spawn = 0
 
     # Game loop
     running = True
@@ -127,8 +135,22 @@ def main():
         for pipe in pipes:
             pipe.update()
         
+        # Remove off-screen pipes
+        pipes = [p for p in pipes if p.x + p.width > 0]
+        
         # Fill the screen with the background color
         screen.fill(BACKGROUND_COLOR)
+        
+        # Pipe spawning logic
+        frames_since_spawn += 1
+        if frames_since_spawn >= PIPE_SPAWN_INTERVAL:
+            frames_since_spawn = 0
+            
+            gap_center = random.randint(
+                SAFE_MARGIN + PIPE_GAP // 2,
+                WINDOW_HEIGHT - SAFE_MARGIN - PIPE_GAP // 2
+            )
+            pipes.append(Pipe(PIPE_X_START, gap_center))
         
         # Draw the pipes
         for pipe in pipes:
