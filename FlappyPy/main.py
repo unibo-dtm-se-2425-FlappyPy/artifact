@@ -26,6 +26,13 @@ class Bird:
         self.y = BIRD_START_Y
         self.width = BIRD_WIDTH
         self.height = BIRD_HEIGHT
+        self.velocity = 0
+        self.gravity = 0.5
+    
+    def update(self):
+        """Update the bird's position based on physics"""
+        self.velocity += self.gravity
+        self.y += self.velocity
     
     def draw(self, screen):
         """Draw the bird on the screen"""
@@ -33,7 +40,7 @@ class Bird:
     
     def jump(self):
         """Make the bird jump up"""
-        self.y -= 50
+        self.velocity = -8
 
 def main():
     """Main game function - our game's entry point"""
@@ -61,6 +68,9 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     bird.jump()
+        
+        # Update game physics
+        bird.update()
         
         # Fill the screen with the background color
         screen.fill(BACKGROUND_COLOR)
