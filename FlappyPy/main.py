@@ -32,11 +32,16 @@ class Pipe:
         self.width = PIPE_WIDTH
         self.gap_center_y = gap_center_y
         self.gap_size = PIPE_GAP
+        self.speed = 3  # Pixels per frame
         
         # Calculate pipe hights
         self.top_height = gap_center_y - (self.gap_size // 2)
         self.bottom_y = gap_center_y + (self.gap_size // 2)
         self.bottom_height = WINDOW_HEIGHT - self.bottom_y
+    
+    def update(self):
+        """Move pipe from right to left"""
+        self.x -= self.speed
     
     def draw(self, screen):
         """Draw both top and bottom pipes"""
@@ -98,7 +103,7 @@ def main():
     bird = Bird()
     
     # Create one test pipe
-    test_pipe = Pipe(PIPE_X_START // 2, WINDOW_HEIGHT // 2)
+    test_pipe = Pipe(PIPE_X_START, WINDOW_HEIGHT // 2)
 
     # Game loop
     running = True
@@ -113,6 +118,9 @@ def main():
         
         # Update game physics
         bird.update()
+        
+        # Update the pipes movement
+        test_pipe.update()
         
         # Fill the screen with the background color
         screen.fill(BACKGROUND_COLOR)
