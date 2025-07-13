@@ -26,20 +26,32 @@ class TestBird(unittest.TestCase):
         initial_y = self.bird.y
         self.bird.jump()
         
-        expected_y = initial_y - 50
-        self.assertEqual(self.bird.y, expected_y, "Bird did not jump to the expected position")
+        self.assertEqual(self.bird.velocity, -8, "Jump should set velocity to -8")
+        self.assertEqual(self.bird.y, initial_y, "Bird's y position should not change until next update()")
+        
+        self.bird.update()
+        self.assertLess(self.bird.y, initial_y, "Bird should move up after jump and update")
     
     def test_multiple_jumps(self):
         """Test that multiple jumps work correctly"""
         initial_y = self.bird.y
         
-        # Jump three times
+        # Multiple jumps should reset velocity each time
         self.bird.jump()
+        self.assertEqual(self.bird.velocity, -8, "First jump should set velocity to -8")
+        
         self.bird.jump()
+        self.assertEqual(self.bird.velocity, -8, "Socond jump should reset velocity to -8")
+        
         self.bird.jump()
+        self.assertEqual(self.bird.velocity, -8, "Third jump should reset velocity to -8")
 
-        expected_y = initial_y - 150
-        self.assertEqual(self.bird.y, expected_y, "Bird did not jump to the expected position after multiple jumps")
+        # Psition should still be unchanged until next update
+        self.assertEqual(self.bird.y, initial_y, "Bird's y position should not change until next update()")
+        
+        
+        self.bird.update()
+        self.assertLess(self.bird.y, initial_y, "Bird should move up after jump and update()")
     
     def test_bird_position_bounds(self):
         """Test bird positioning relative to screen"""
