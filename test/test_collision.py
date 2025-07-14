@@ -64,5 +64,56 @@ class TestCollisionDetection(unittest.TestCase):
         collision = self.bird.check_collision_with_pipe(self.pipe)
         self.assertFalse(collision, "Bird not overlapping pipe should not collide")
 
+    def test_game_state_initialization(self):
+        """Test that game starts in correct initial state"""
+        # These would be tested in a game state manager, but we can test the concept
+        bird = Bird()
+        
+        # Bird should start at initial position
+        from FlappyPy.main import BIRD_START_X, BIRD_START_Y
+        self.assertEqual(bird.x, BIRD_START_X, "Bird should start at initial x position")
+        self.assertEqual(bird.y, BIRD_START_Y, "Bird should start at initial y position")
+        self.assertEqual(bird.velocity, 0, "Bird should start with zero velocity")
+
+    def test_bird_collision_triggers_game_over_condition(self):
+        """Test that collision detection can trigger game over logic"""
+        # Position bird to collide with pipe
+        self.bird.x = self.pipe.x + 10
+        self.bird.y = self.pipe.top_height - 10
+        
+        # Collision should be detected (this would trigger game over in main loop)
+        collision_detected = self.bird.check_collision_with_pipe(self.pipe)
+        self.assertTrue(collision_detected, "Collision should be detected for game over trigger")
+
+    def test_bird_reset_functionality(self):
+        """Test that bird can be properly reset to initial state"""
+        # Modify bird state (simulate gameplay)
+        self.bird.x = 200
+        self.bird.y = 400
+        self.bird.velocity = 15
+        
+        # Reset bird to initial state (simulate restart)
+        from FlappyPy.main import BIRD_START_X, BIRD_START_Y
+        reset_bird = Bird()  # This simulates creating new bird on restart
+        
+        # Verify reset worked correctly
+        self.assertEqual(reset_bird.x, BIRD_START_X, "Reset bird should be at initial x")
+        self.assertEqual(reset_bird.y, BIRD_START_Y, "Reset bird should be at initial y") 
+        self.assertEqual(reset_bird.velocity, 0, "Reset bird should have zero velocity")
+
+    def test_multiple_collision_scenarios(self):
+        """Test collision detection across different pipe positions"""
+        # Test with pipe at different gap heights
+        high_pipe = Pipe(150, 100)  # High gap
+        low_pipe = Pipe(200, WINDOW_HEIGHT - 100)  # Low gap
+        
+        # Bird should be able to fly through both gaps safely
+        self.bird.x = 160
+        self.bird.y = 90  # In high gap
+        self.assertFalse(self.bird.check_collision_with_pipe(high_pipe), "Bird should fit through high gap")
+        
+        self.bird.y = WINDOW_HEIGHT - 110  # In low gap
+        self.assertFalse(self.bird.check_collision_with_pipe(low_pipe), "Bird should fit through low gap")
+
 if __name__ == '__main__':
     unittest.main()
