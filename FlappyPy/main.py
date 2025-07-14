@@ -90,6 +90,24 @@ class Bird:
     def jump(self):
         """Make the bird jump up"""
         self.velocity = -8
+    
+    def get_rect(self):
+        """Get bird's collision rectangle for collision detection"""
+        return pygame.Rect(self.x, self.y, self.width, self.height)
+    
+    def check_collision_with_pipe(self, pipe):
+        """Check if the bird collides with a pipe"""
+        bird_rect = self.get_rect()
+        
+        top_pipe_rect = pygame.Rect(pipe.x, 0, pipe.width, pipe.top_height)
+        if bird_rect.colliderect(top_pipe_rect):
+            return True
+        
+        bottom_pipe_rect = pygame.Rect(pipe.x, pipe.bottom_y, pipe.width, pipe.bottom_height)
+        if bird_rect.colliderect(bottom_pipe_rect):
+            return True
+        
+        return False
 
 def main():
     """Main game function - our game's entry point"""
@@ -134,6 +152,11 @@ def main():
         # Update the pipes movement
         for pipe in pipes:
             pipe.update()
+        
+        # Check for collisions
+        for pipe in pipes:
+            if bird.check_collision_with_pipe(pipe):
+                print("Collision detected! Game Over.")
         
         # Remove off-screen pipes
         pipes = [p for p in pipes if p.x + p.width > 0]
