@@ -9,8 +9,8 @@ jobs:
       group: deploy
     runs-on: ubuntu-latest
     permissions:
-      contents: write          # Required for creating releases and pushing tags
-      pull-requests: write     # Required for creating/updating PRs
+      contents: write         # Required for creating releases and pushing tags
+      pull-requests: write    # Required for creating/updating PRs
       issues: write           # Required for creating issues
       actions: read           # Required for workflow operations
       checks: write           # Required for status checks
@@ -20,6 +20,7 @@ jobs:
         with:
           fetch-depth: 0 # all history
           token: ${{ secrets.RELEASE_TOKEN || github.token }}
+          persist-credentials: true
 
       - name: Get All Tags
         run: git fetch --tags -f
