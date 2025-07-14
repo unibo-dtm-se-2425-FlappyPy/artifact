@@ -77,11 +77,6 @@ class Bird:
         if self.y < 0:
             self.y = 0
             self.velocity = 0
-        
-        # Bottom boundary
-        if self.y + self.height > WINDOW_HEIGHT:
-            self.y = WINDOW_HEIGHT - self.height
-            self.velocity = 0
     
     def draw(self, screen):
         """Draw the bird on the screen"""
@@ -108,6 +103,14 @@ class Bird:
             return True
         
         return False
+    
+    def check_collision_with_ground(self):
+        """Check if bird has hit the bottom boundary (ground)"""
+        return self.y + self.height >= WINDOW_HEIGHT
+
+    def check_collision_with_ceiling(self):
+        """Check if bird has hit the top boundary (ceiling)"""
+        return self.y <= 0
 
 def main():
     """Main game function - our game's entry point"""
@@ -160,12 +163,16 @@ def main():
             for pipe in pipes:
                 pipe.update()
             
-            # Check for collisions
-            if not game_over:
-                for pipe in pipes:
-                    if bird.check_collision_with_pipe(pipe):
-                        game_over = True
-                        print("GAME OVER! Press SPACE to play again.")
+            # Check pipe collisions
+            for pipe in pipes:
+                if bird.check_collision_with_pipe(pipe):
+                    game_over = True
+                    print("GAME OVER! Press SPACE to play again.")
+            
+            # Check ground collision
+            if bird.check_collision_with_ground():
+                game_over = True
+                print("GAME OVER! Press SPACE to play again.")
             
             # Remove off-screen pipes
             pipes = [p for p in pipes if p.x + p.width > 0]
