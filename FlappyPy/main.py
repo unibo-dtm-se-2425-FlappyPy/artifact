@@ -125,12 +125,11 @@ def main():
     # Create the bird
     bird = Bird()
     
-    # Create multiple test pipes
-    pipes = [
-        Pipe(PIPE_X_START, WINDOW_HEIGHT // 2),
-        Pipe(PIPE_X_START + 250, WINDOW_HEIGHT // 3),
-        Pipe(PIPE_X_START + 500, WINDOW_HEIGHT - 100)
-    ]
+    # Create initial pipes list
+    pipes = []
+    
+    # Initialize game state
+    game_over = False
     
     # Frame counter for pipe spawning
     frames_since_spawn = 0
@@ -144,43 +143,53 @@ def main():
                 running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    bird.jump()
+                    if game_over:
+                        # Reset the game
+                        game_over = False
+                        bird = Bird()
+                        pipes = []
+                        frames_since_spawn = 0
+                    else:
+                        bird.jump()
         
-        # Update game physics
-        bird.update()
-        
-        # Update the pipes movement
-        for pipe in pipes:
-            pipe.update()
-        
-        # Check for collisions
-        for pipe in pipes:
-            if bird.check_collision_with_pipe(pipe):
-                print("Collision detected! Game Over.")
-        
-        # Remove off-screen pipes
-        pipes = [p for p in pipes if p.x + p.width > 0]
-        
-        # Fill the screen with the background color
-        screen.fill(BACKGROUND_COLOR)
-        
-        # Pipe spawning logic
-        frames_since_spawn += 1
-        if frames_since_spawn >= PIPE_SPAWN_INTERVAL:
-            frames_since_spawn = 0
+        # Update game
+        if not game_over:
+            bird.update()
             
-            gap_center = random.randint(
-                SAFE_MARGIN + PIPE_GAP // 2,
-                WINDOW_HEIGHT - SAFE_MARGIN - PIPE_GAP // 2
-            )
-            pipes.append(Pipe(PIPE_X_START, gap_center))
-        
-        # Draw the pipes
-        for pipe in pipes:
-            pipe.draw(screen)
+            # Update the pipes movement
+            for pipe in pipes:
+                pipe.update()
+            
+            # Check for collisions
+            if not game_over:
+                for pipe in pipes:
+                    if bird.check_collision_with_pipe(pipe):
+                        game_over = True
+                        print("GAME OVER! Press SPACE to play again.")
+            
+            # Remove off-screen pipes
+            pipes = [p for p in pipes if p.x + p.width > 0]
+            
+            # Fill the screen with the background color
+            screen.fill(BACKGROUND_COLOR)
+            
+            # Pipe spawning logic
+            frames_since_spawn += 1
+            if frames_since_spawn >= PIPE_SPAWN_INTERVAL:
+                frames_since_spawn = 0
+                
+                gap_center = random.randint(
+                    SAFE_MARGIN + PIPE_GAP // 2,
+                    WINDOW_HEIGHT - SAFE_MARGIN - PIPE_GAP // 2
+                )
+                pipes.append(Pipe(PIPE_X_START, gap_center))
+            
+            # Draw the pipes
+            for pipe in pipes:
+                pipe.draw(screen)
 
-        # Draw the bird
-        bird.draw(screen)
+            # Draw the bird
+            bird.draw(screen)
 
         # Update the display
         pygame.display.flip()
