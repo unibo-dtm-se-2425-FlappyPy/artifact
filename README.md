@@ -9,12 +9,13 @@ A modern Python implementation of the classic Flappy Bird game built with pygame
 
 ## 🎮 Game Features
 
-- **Classic Flappy Bird Gameplay** - Tap to flap, avoid the pipes!
+- **Core Flappy Bird Gameplay** - Navigate your bird through pipe obstacles!
+- **Physics-Based Movement** - Realistic gravity and jumping mechanics
+- **Collision Detection** - Accurate detection for pipes and ground boundaries
+- **Game Over & Restart** - Collision triggers game over, spacebar to restart
 - **Smooth 60 FPS Animation** - Buttery smooth gameplay experience
-- **Score Tracking** - Keep track of your best runs
-- **Cross-Platform** - Runs on Windows, macOS, and Linux
-- **Lightweight** - Minimal dependencies, fast startup
-- **Well-Tested** - Comprehensive unit test suite included
+- **Comprehensive Testing** - 44+ unit tests ensuring reliable gameplay
+- **Professional Structure** - Clean, maintainable codebase
 
 ## 🚀 Quick Start
 
@@ -55,16 +56,15 @@ python -m FlappyPy
 
 ## 🎯 How to Play
 
-- **SPACEBAR** or **UP ARROW** - Make the bird flap and fly upward
-- **ESC** - Pause the game
-- **MOUSE CLICK** - Alternative control for flapping
+- **SPACEBAR** - Make the bird flap and fly upward
+- **SPACEBAR** (when game over) - Restart the game
 
 ### Game Rules
 
 1. Navigate your bird through the gaps between pipes
-2. Each successful passage through pipes increases your score
-3. Avoid hitting pipes or the ground
-4. Try to beat your high score!
+2. Avoid hitting pipes or the ground - both trigger game over
+3. Use spacebar to jump and overcome gravity
+4. Press spacebar after game over to play again
 
 ## 🏗️ Project Structure
 
@@ -73,18 +73,15 @@ FlappyPy/
 ├── FlappyPy/                 # Main game package
 │   ├── __init__.py           # Package initialization
 │   ├── __main__.py           # Game entry point
-│   ├── main.py               # Core game logic
-│   ├── bird.py               # Bird character class
-│   ├── pipe.py               # Pipe obstacle class
-│   ├── game_state.py         # Game state management
-│   └── constants.py          # Game constants and settings
+│   └── main.py               # Complete game implementation
 ├── test/                     # Unit tests
 │   ├── __init__.py           # Test package initialization
-│   ├── test_foundation.py    # Basic functionality tests
-│   ├── test_bird.py          # Bird behavior tests
+│   ├── test_foundation.py    # Core game setup tests
+│   ├── test_bird.py          # Bird physics tests
+│   ├── test_physics.py       # Movement and gravity tests
+│   ├── test_boundary.py      # Screen boundary tests
+│   ├── test_pipe.py          # Pipe generation tests
 │   └── test_collision.py     # Collision detection tests
-├── dev-tools/                # Development utilities
-│   └── test_pygame.py        # Environment testing script
 ├── requirements.txt          # Runtime dependencies
 ├── requirements-dev.txt      # Development dependencies
 └── README.md                 # This file
@@ -219,9 +216,12 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## 📈 Version History
 
-- **v1.0.0** - Initial release with core gameplay
-- **v0.9.0** - Beta release with basic features
-- **v0.1.0** - Development version with foundation
+- **v1.0.0** - Initial release with core Flappy Bird gameplay mechanics
+  - Complete collision detection system
+  - Physics-based bird movement with gravity  
+  - Automatic pipe generation and movement
+  - Game over and restart functionality
+  - Comprehensive test coverage (44+ tests)
 
 ## 🔗 Links
 
