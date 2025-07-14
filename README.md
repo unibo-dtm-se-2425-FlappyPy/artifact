@@ -1,135 +1,235 @@
-# Python project template
+# 🐦 FlappyPy
 
-A simple template of a Python project, with a rigid file structure, and predisposition for unit testing and release on PyPi.
+A modern Python implementation of the classic Flappy Bird game built with pygame. Navigate your bird through endless pipes in this addictive side-scrolling adventure!
 
-## Relevant features
+![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)
+![Pygame](https://img.shields.io/badge/pygame-2.6.1-green)
+![License](https://img.shields.io/badge/license-Apache%202.0-yellow)
+![Tests](https://github.com/unibo-dtm-se-2425-FlappyPy/artifact/workflows/CI%2FCD/badge.svg)
 
-- All your project code into a single main package (`FlappyPy/`)
-- All your project tests into a single test package (`test/`)
-- Unit testing support via [`unittest`](https://docs.python.org/3/library/unittest.html)
-- Automatic testing on all branches via GitHub Actions
-- Semi-automatic versioning via Git
-- Packaging support via [`setuptools`](https://setuptools.pypa.io/en/latest/setuptools.html)
-- Automatic release on [PyPi](https://pypi.org/) via GitHub Actions
-- Docker image support via `Dockerfile`
-- Automatic release on [DockerHub](https://hub.docker.com/) via GitHub Actions
-- Support for semi-automatic development environment management via [Pyenv](https://github.com/pyenv/pyenv)
-- Automatic dependencies updates via [Renovate](https://docs.renovatebot.com/)
-- Automatic conversion of `TODO` comments into GitHub issues via the `alstr/todo-to-issue-action`
+## 🎮 Game Features
 
-## Project structure 
+- **Classic Flappy Bird Gameplay** - Tap to flap, avoid the pipes!
+- **Smooth 60 FPS Animation** - Buttery smooth gameplay experience
+- **Score Tracking** - Keep track of your best runs
+- **Cross-Platform** - Runs on Windows, macOS, and Linux
+- **Lightweight** - Minimal dependencies, fast startup
+- **Well-Tested** - Comprehensive unit test suite included
 
-Overview:
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.9 or higher
+- pip (Python package installer)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/unibo-dtm-se-2425-FlappyPy/artifact.git
+   cd artifact
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Test your setup (optional)**
+   ```bash
+   python dev-tools/test_pygame.py
+   ```
+
+4. **Start playing!**
+   ```bash
+   python -m FlappyPy
+   ```
+
+### Alternative Installation via PyPI
+
 ```bash
-<root directory>
-├── FlappyPy/             # main package (should be named after your project)
-│   ├── __init__.py         # python package marker
-│   └── __main__.py         # application entry point
-├── test/                   # test package (should contain unit tests)
-├── .github/                # configuration of GitHub CI
-│   └── workflows/          # configuration of GitHub Workflows
-│       ├── check.yml       # runs tests on multiple OS and versions of Python
-│       └── deploy.yml      # if check succeeds, and the current branch is one of {main, master}, triggers automatic releas on PyPi
-├── MANIFEST.in             # file stating what to include/exclude in releases 
-├── LICENSE                 # license file (Apache 2.0 by default)
-├── pyproject.toml          # declares build dependencies
-├── renovate.json           # configuration of Renovate bot, for automatic dependency updates
-├── requirements-dev.txt    # declares development dependencies
-├── requirements.txt        # declares runtime dependencies
-├── setup.py                # configuration of the package to be released on Pypi
-└── Dockerfile              # configuration of the Docker image to be realsed on Dockerhub
+pip install FlappyPy
+python -m FlappyPy
 ```
 
-## TODO-list for template usage
+## 🎯 How to Play
 
-1. Use this template to create a new GitHub repository, say `FlappyPy`
-    - this name will also be used to identify the package on PyPi
-        + so, we suggest choosing a name which has not been used on PyPi, yet
-        + we also suggest choosing a name which is a valid Python package name (i.e. `using_snake_case`)
+- **SPACEBAR** or **UP ARROW** - Make the bird flap and fly upward
+- **ESC** - Pause the game
+- **MOUSE CLICK** - Alternative control for flapping
 
-2. Clone the `FlappyPy` repository
+### Game Rules
 
-3. Open a shell into your local `FlappyPy` directory and run 
-    ```bash
-    ./rename-template.sh FlappyPy
-    ``` 
-    
-    This will coherently rename the template's project name with the one chosen by you (i.e. `FlappyPy`, in this example)
+1. Navigate your bird through the gaps between pipes
+2. Each successful passage through pipes increases your score
+3. Avoid hitting pipes or the ground
+4. Try to beat your high score!
 
-4. Commit & push
+## 🏗️ Project Structure
 
-5. Ensure you like the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0.html). If you don't, change the content of the `LICENSE` file
-
-6. Ensure the version reported in `.python-version` corresponds to the actual Python version you are willing to use to develop your project
-
-7. Check the Python version and OS tests should be run on in CI, by looking the file `.github/workflows/check.yml`
-
-8. Add your runtime dependencies to `requirements.txt`
-    + and development-only dependencies here `requirements-dev.txt`
-
-9. Set your project's release metadata and dependencies by editing `setup.py`
-
-10. Change the assignee for pull-requests for automatic dependency updates by editing `renovate.json`
-    + currently defaults to @gciatto
-
-11. Add your PyPi credentials as secrets of the GitHub repository 
-    - `PYPI_USERNAME` (resp. `PYPI_PASSWORD`) for your username (resp. password)
-    - this may require you to register on PyPi first
-
-12. Generate a GitHub token and add it as a secret of the GitHub repository, named `RELEASE_TOKEN`
-    - cf. <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic>
-    - the token must allow pushing to the repository
-
-13. Put your main (resp. test) code in `FlappyPy/` (resp. `test/`)
-
-## How to do stuff
-
-### Run your code as an application
-
-This will execute the file `FlappyPy/__main__.py`:
 ```bash
-python -m FlappyPy 
+FlappyPy/
+├── FlappyPy/                 # Main game package
+│   ├── __init__.py           # Package initialization
+│   ├── __main__.py           # Game entry point
+│   ├── main.py               # Core game logic
+│   ├── bird.py               # Bird character class
+│   ├── pipe.py               # Pipe obstacle class
+│   ├── game_state.py         # Game state management
+│   └── constants.py          # Game constants and settings
+├── test/                     # Unit tests
+│   ├── __init__.py           # Test package initialization
+│   ├── test_foundation.py    # Basic functionality tests
+│   ├── test_bird.py          # Bird behavior tests
+│   └── test_collision.py     # Collision detection tests
+├── dev-tools/                # Development utilities
+│   └── test_pygame.py        # Environment testing script
+├── requirements.txt          # Runtime dependencies
+├── requirements-dev.txt      # Development dependencies
+└── README.md                 # This file
 ```
 
-### Run unit tests
+## 🛠️ Development
 
+### Setting up Development Environment
+
+1. **Clone and setup**
+   ```bash
+   git clone https://github.com/unibo-dtm-se-2425-FlappyPy/artifact.git
+   cd artifact
+   pip install -r requirements-dev.txt
+   ```
+
+2. **Run tests**
+   ```bash
+   python -m unittest discover -s test -t .
+   ```
+
+3. **Test specific components**
+   ```bash
+   # Test game foundation
+   python -m unittest test.test_foundation
+   
+   # Test environment setup
+   python dev-tools/test_pygame.py
+   ```
+
+### Code Structure
+
+- **`FlappyPy/main.py`** - Main game loop and pygame initialization
+- **`FlappyPy/bird.py`** - Bird physics and rendering
+- **`FlappyPy/pipe.py`** - Pipe generation and collision
+- **`FlappyPy/constants.py`** - Game configuration and tuning parameters
+
+### Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Add tests for new functionality
+5. Ensure all tests pass (`python -m unittest discover -s test -t .`)
+6. Commit your changes (`git commit -m 'Add amazing feature'`)
+7. Push to the branch (`git push origin feature/amazing-feature`)
+8. Open a Pull Request
+
+## 🧪 Testing
+
+FlappyPy includes comprehensive unit tests to ensure game stability:
+
+- **Foundation Tests** - Validate core game constants and settings
+- **Physics Tests** - Verify bird movement and gravity mechanics
+- **Collision Tests** - Ensure accurate hit detection
+- **Rendering Tests** - Confirm graphics display correctly
+
+Run all tests:
 ```bash
 python -m unittest discover -s test -t .
 ```
 
-> Tests are automatically run in CI, on all pushes on all branches.
-> There, tests are executed on multiple OS (Win, Mac, Ubuntu) and on multiple Python versions (from `3.8` to `3.11`).
+## 📦 Building and Distribution
 
-### Restore dev dependencies
+### Building for Distribution
 
 ```bash
-pip install -r requirements-dev.txt
+python -m build
 ```
 
-### Release a new version on PyPi
+### Local Installation
 
-> This paragraph is more understandable if the reader has some background about [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+```bash
+pip install -e .
+```
 
-GitHub actions automatically release a new version of `FlappyPy` on PyPi whenever commits are pushed on either the `main`/`master` or `develop` branches, as well as when new tags are pushed.
+## 🎨 Game Customization
 
-Tags are assumed to consist of [semantic versioning](https://semver.org/) strings of the form `Major.Minor.Patch` where `Major`, `Minor`, and `Patch` are non-negative integers.
+You can customize various aspects of the game by modifying constants in `FlappyPy/constants.py`:
 
-So, to release version `X.Y.Z`, developers must:
+```python
+# Window settings
+WINDOW_WIDTH = 400        # Game window width
+WINDOW_HEIGHT = 600       # Game window height
+FPS = 60                  # Target frame rate
 
-1. tag a commit on the `master`/`main`/`develop` branch, using `X.Y.Z` as the tag label
-    ```bash
-    git tag -a 'X.Y.Z' -m <a message here describing the version>
-    ```
+# Bird settings
+BIRD_JUMP_STRENGTH = -10  # How high the bird jumps
+BIRD_GRAVITY = 0.5        # Gravity effect on bird
 
-2. push the tag
-    ```bash
-    git push --follow-tags
-    ```
+# Pipe settings
+PIPE_SPEED = 3            # How fast pipes move
+PIPE_GAP = 150           # Gap size between pipes
+```
 
-3. GitHub Actions will then run tests and, if all of them succeed, release the code on PyPi.
-After the release, users will be able to install your code via Pip.
+## 🐛 Troubleshooting
 
-> Non-tagged commits pushed on the `master`/`main`/`develop` branch will trigger __dev releases__.
-> Dev releases are automatically tagged as `X.Y.Y.devN`, where
-> - `X.Y.Y` is the value of the __most recent__ version tag
-> - `N` is the amount of commits following the most recent version tag 
+### Common Issues
+
+**"pygame not found" error**
+```bash
+pip install pygame==2.6.1
+```
+
+**"No module named FlappyPy" error**
+- Ensure you're running from the project root directory
+- Try: `python -m pip install -e .`
+
+**Game runs too fast/slow**
+- Check your system's display refresh rate
+- Modify the `FPS` constant in the game settings
+
+**No sound/audio issues**
+- Ensure your system audio is working
+- pygame audio initialization may fail on some systems - this is non-critical
+
+### Performance Tips
+
+- Close other applications for better performance
+- Ensure Python 3.9+ for optimal pygame compatibility
+- On older systems, reduce FPS in settings if needed
+
+## 📄 License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## 🏆 Acknowledgments
+
+- Inspired by the original Flappy Bird game by Dong Nguyen
+- Built with [pygame](https://www.pygame.org/) - Python game development library
+- Thanks to the Python community for excellent tooling and support
+
+## 📈 Version History
+
+- **v1.0.0** - Initial release with core gameplay
+- **v0.9.0** - Beta release with basic features
+- **v0.1.0** - Development version with foundation
+
+## 🔗 Links
+
+- [Report a Bug](https://github.com/unibo-dtm-se-2425-FlappyPy/artifact/issues)
+- [Request a Feature](https://github.com/unibo-dtm-se-2425-FlappyPy/artifact/issues)
+- [PyPI Package](https://pypi.org/project/FlappyPy/)
+- [Documentation](https://github.com/unibo-dtm-se-2425-FlappyPy/artifact/wiki)
+
+---
+
+**Made with ❤️ and Python** | *Happy Flying!* 🐦✨ 
