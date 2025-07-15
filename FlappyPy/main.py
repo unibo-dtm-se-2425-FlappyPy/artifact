@@ -28,6 +28,22 @@ PIPE_X_START = WINDOW_WIDTH  # Start just off-screen right
 PIPE_SPAWN_INTERVAL = 120 # Frames between pipe spawns (~2s at 60 FPS)
 SAFE_MARGIN = 80 # Keeps gaps fully within the screen
 
+# Score class
+class Score:
+    """Manages the player's score"""
+    
+    def __init__(self):
+        """Initialize score to zero"""
+        self.current_score = 0
+    
+    def get_current_score(self):
+        """Return the current score value"""
+        return self.current_score
+    
+    def add_point(self):
+        """Increment the score by one point"""
+        self.current_score += 1
+    
 # Pipe class
 class Pipe:
     """Class representing pipes as obstacles in the game"""
