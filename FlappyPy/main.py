@@ -53,6 +53,7 @@ class Pipe:
         self.width = PIPE_WIDTH
         self.gap_center_y = gap_center_y
         self.gap_size = PIPE_GAP
+        self.scored = False
         self.speed = 3  # Pixels per frame
         
         # Calculate pipe hights
@@ -170,6 +171,7 @@ def main():
                         game_over = False
                         bird = Bird()
                         pipes = []
+                        score = Score()
                         frames_since_spawn = 0
                     else:
                         bird.jump()
@@ -191,7 +193,8 @@ def main():
                     print("GAME OVER! Press SPACE to play again.")
                 
                 # Check if bird has passed through this pipe
-                if bird.x > pipe.x + pipe.width:
+                if bird.x > pipe.x + pipe.width and not pipe.scored:
+                    pipe.scored = True
                     score.add_point()
                     print(f"Score: {score.get_current_score()}")
             
