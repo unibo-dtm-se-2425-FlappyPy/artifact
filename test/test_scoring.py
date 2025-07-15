@@ -10,13 +10,21 @@ class TestScoring(unittest.TestCase):
     """Unit tests for scoring system functionality"""
     
     def setUp(self):
-        """Create fresh game objects for each test"""
+        """Create fresh scoring objects for each test"""
         pass
     
-    def test_score_initializes_to_zero(self):
-        """Test that game score starts at zero"""
-        score = 0  # Placeholder
-        self.assertEqual(score, 0, "Game score should initialize to zero")
+    def test_score_class_initialization(self):
+        """Test that Score class initializes with zero points"""
+        score = Score()
+        self.assertEqual(score.get_current_score(), 0, 
+                        "Score should initialize to zero")
+        
+    def test_score_increment(self):
+        """Test that score can be incremented by one point"""
+        score = Score()
+        score.add_point()
+        self.assertEqual(score.get_current_score(), 1,
+                        "Score should increment to 1 after adding point")
 
 if __name__ == '__main__':
     unittest.main()
