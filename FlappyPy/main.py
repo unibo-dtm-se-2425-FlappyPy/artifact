@@ -147,6 +147,9 @@ def main():
     # Create initial pipes list
     pipes = []
     
+    # Create scoring system
+    score = Score()
+    
     # Initialize game state
     game_over = False
     
@@ -173,6 +176,7 @@ def main():
         
         # Update game
         if not game_over:
+            
             bird.update()
             
             # Update the pipes movement
