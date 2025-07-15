@@ -185,9 +185,15 @@ def main():
             
             # Check pipe collisions
             for pipe in pipes:
+                # Check if bird collides with this pipe
                 if bird.check_collision_with_pipe(pipe):
                     game_over = True
                     print("GAME OVER! Press SPACE to play again.")
+                
+                # Check if bird has passed through this pipe
+                if bird.x > pipe.x + pipe.width:
+                    score.add_point()
+                    print(f"Score: {score.get_current_score()}")
             
             # Check ground collision
             if bird.check_collision_with_ground():
