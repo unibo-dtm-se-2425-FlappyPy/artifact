@@ -7,6 +7,8 @@ import warnings
 import random
 import pygame
 import sys
+import pygame
+import importlib.resources as pkg_resources
 
 # Suppress Pygame warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="pygame.pkgdata")
@@ -22,7 +24,6 @@ BACKGROUND_COLOR = (135, 206, 235)  # Sky blue
 # Bird constants
 BIRD_WIDTH = 30
 BIRD_HEIGHT = 30
-BIRD_COLOR = (255, 255, 0)  # Yellow
 BIRD_START_X = 50
 BIRD_START_Y = WINDOW_HEIGHT // 2
 
@@ -91,11 +92,40 @@ class Bird:
         self.height = BIRD_HEIGHT
         self.velocity = 0
         self.gravity = 0.5
+        
+        # Load bird images
+        self.falling_sprite = self._load_image("bird.png")
+        self.flying_sprite = self._load_image("bird-spaced.png")
+        
+        # Track current state
+        self.is_flying = False
+        self.current_sprite = self.falling_sprite
+        
+        # Position and collision
+        self.rect = self.current_sprite.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+    
+    def _load_image(self, filename: str) -> pygame.Surface:
+        """Private helper to load bird images"""
+        with pkg_resources.path("assets.images", filename) as img_path:
+            return pygame.image.load(img_path).convert_alpha()
+    
+    def flap(self):
+        """Call this when spacebar is pressed"""
+        self.is_flying = True
+        self.current_sprite = self.flying_sprite
+    
+    def stop_flapping(self):
+        """Call this when spacebar is released"""
+        self.is_flying = False
+        self.current_sprite = self.falling_sprite
     
     def update(self):
         """Update the bird's position based on physics"""
         self.velocity += self.gravity
         self.y += self.velocity
+        self.rect.y = self.y
         self.check_boundaries()
     
     def check_boundaries(self):
@@ -103,11 +133,12 @@ class Bird:
         # Top boundary
         if self.y < 0:
             self.y = 0
+            self.rect.y = 0
             self.velocity = 0
     
     def draw(self, screen):
         """Draw the bird on the screen"""
-        pygame.draw.rect(screen, BIRD_COLOR, (self.x, self.y, self.width, self.height))
+        screen.blit(self.current_sprite, self.rect)
     
     def jump(self):
         """Make the bird jump up"""
@@ -210,7 +241,11 @@ def main():
                         score = Score()
                         frames_since_spawn = 0
                     else:
+                        bird.flap()
                         bird.jump()
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    bird.stop_flapping()
         
         # Game runs normally
         if not game_over:
