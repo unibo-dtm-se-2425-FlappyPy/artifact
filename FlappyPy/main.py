@@ -134,6 +134,7 @@ def main():
 
     # Initialize Pygame
     pygame.init()
+    font = pygame.font.Font(None, 36)
     
     # Create the game window
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -196,7 +197,6 @@ def main():
                 if bird.x > pipe.x + pipe.width and not pipe.scored:
                     pipe.scored = True
                     score.add_point()
-                    print(f"Score: {score.get_current_score()}")
             
             # Check ground collision
             if bird.check_collision_with_ground():
@@ -226,6 +226,10 @@ def main():
 
             # Draw the bird
             bird.draw(screen)
+        
+        # Draw the score
+        score_text = font.render(f"Score: {score.get_current_score()}", True, (255, 255, 255))
+        screen.blit(score_text, (10, 10))  # Position at top-left corner
 
         # Update the display
         pygame.display.flip()
