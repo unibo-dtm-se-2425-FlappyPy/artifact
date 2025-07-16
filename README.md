@@ -1,11 +1,14 @@
-# 🐦 FlappyPy
+<h1>
+<img src="FlappyPy/assets/images/bird.png" alt="left" width="20" style="vertical-align:middle;"/>
+<span style="margin:0 6px;">FlappyPy</span>
+<img src="FlappyPy/assets/images/bird-spaced.png" alt="right" width="20" style="vertical-align:middle;"/>
+</h1>
 
-A modern Python implementation of the classic Flappy Bird game built with pygame. Navigate your bird through endless pipes in this addictive side-scrolling adventure!
+A Python implementation of the classic Flappy Bird game built with pygame.
 
 ![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)
 ![Pygame](https://img.shields.io/badge/pygame-2.6.1-green)
 ![License](https://img.shields.io/badge/license-Apache%202.0-yellow)
-![Tests](https://github.com/unibo-dtm-se-2425-FlappyPy/artifact/workflows/CI%2FCD/badge.svg)
 
 ## 🎮 Game Features
 
@@ -15,7 +18,7 @@ A modern Python implementation of the classic Flappy Bird game built with pygame
 - **Collision Detection** - Accurate detection for pipes and ground boundaries
 - **Game Over & Restart** - Collision triggers game over, spacebar to restart
 - **Smooth 60 FPS Animation** - Buttery smooth gameplay experience
-- **Comprehensive Testing** - 44+ unit tests ensuring reliable gameplay
+- **Comprehensive Testing** - 50+ unit tests ensuring reliable gameplay
 - **Professional Structure** - Clean, maintainable codebase
 
 ## 🚀 Quick Start
@@ -48,13 +51,6 @@ A modern Python implementation of the classic Flappy Bird game built with pygame
    python -m FlappyPy
    ```
 
-### Alternative Installation via PyPI
-
-```bash
-pip install FlappyPy
-python -m FlappyPy
-```
-
 ## 🎯 How to Play
 
 - **SPACEBAR** - Make the bird flap and fly upward
@@ -73,24 +69,25 @@ python -m FlappyPy
 
 ```bash
 FlappyPy/
-├── FlappyPy/                 # Main game package
-│   ├── __init__.py           # Package initialization
-│   ├── __main__.py           # Game entry point
-│   ├── main.py               # Complete game implementation
-│   └── scoring.py            # Scoring system and high score management
-├── test/                     # Unit tests
-│   ├── __init__.py           # Test package initialization
-│   ├── test_foundation.py    # Core game setup tests
-│   ├── test_bird.py          # Bird physics tests
-│   ├── test_physics.py       # Movement and gravity tests
-│   ├── test_boundary.py      # Screen boundary tests
-│   ├── test_pipe.py          # Pipe generation tests
-│   ├── test_collision.py     # Collision detection tests
-│   ├── test_score_display.py # Scoring display test
-│   └── test_scoring.py       # Scoring system tests
-├── requirements.txt          # Runtime dependencies
-├── requirements-dev.txt      # Development dependencies
-└── README.md                 # This file
+├── FlappyPy/                      # Main game package
+│   ├── assets/                    # Game assets
+│   ├── __init__.py                # Package initialization
+│   ├── __main__.py                # Game entry point
+│   └── main.py                    # Complete game
+├── test/                          # Unit tests
+│   ├── __init__.py                # Test package initialization
+│   ├── test_foundation.py         # Core game setup tests
+│   ├── test_bird.py               # Bird physics tests
+│   ├── test_physics.py            # Movement and gravity tests
+│   ├── test_boundary.py           # Screen boundary tests
+│   ├── test_pipe.py               # Pipe generation tests
+│   ├── test_collision.py          # Collision detection tests
+│   ├── test_score_display.py      # Scoring display test
+│   ├── test_game_over_display.py  # Scoring display test
+│   └── test_scoring.py            # Scoring system tests
+├── requirements.txt               # Runtime dependencies
+├── requirements-dev.txt           # Development dependencies
+└── README.md                      # This file
 ```
 
 ## 🛠️ Development
@@ -120,17 +117,17 @@ FlappyPy/
 
 ### Code Structure
 
-- **`FlappyPy/main.py`** - Main game loop and pygame initialization, Classes and Constants
+- **`FlappyPy/main.py`** - Main game loop and pygame initialization, Classes, Functions and Constants
 
 ### Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+2. Create a feature branch (`git checkout -b feature/feature-name`)
 3. Make your changes
 4. Add tests for new functionality
 5. Ensure all tests pass (`python -m unittest discover -s test -t .`)
-6. Commit your changes (`git commit -m 'Add amazing feature'`)
-7. Push to the branch (`git push origin feature/amazing-feature`)
+6. Commit your changes (`git commit -m 'Add the feature name'`)
+7. Push to the branch (`git push origin feature/feature-name`)
 8. Open a Pull Request
 
 ## 🧪 Testing
@@ -173,12 +170,12 @@ WINDOW_HEIGHT = 600       # Game window height
 FPS = 60                  # Target frame rate
 
 # Bird settings
-BIRD_JUMP_STRENGTH = -10  # How high the bird jumps
+BIRD_JUMP_STRENGTH = -8   # How high the bird jumps
 BIRD_GRAVITY = 0.5        # Gravity effect on bird
 
 # Pipe settings
 PIPE_SPEED = 3            # How fast pipes move
-PIPE_GAP = 150           # Gap size between pipes
+PIPE_GAP = 150            # Gap size between pipes
 ```
 
 ## 🐛 Troubleshooting
@@ -220,12 +217,16 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## 📈 Version History
 
+- **1.2.0** - Enhanced User Experience
+  - Animated bird with falling/flying states
+  - Background music, sound effects, and game over audio
+
 - **v1.1.0** - Scoring System Update
-  - Real-time score tracking and display
-  - High score persistence between game sessions
+  - TDD approach development; Real-time score tracking and display
   - Enhanced game over screen with score information
   - Comprehensive scoring system tests
-- **v1.0.0** - Initial release with core Flappy Bird gameplay mechanics
+
+- **v1.0.0** - Initial release with core gameplay mechanics
   - Complete collision detection system
   - Physics-based bird movement with gravity  
   - Automatic pipe generation and movement
@@ -236,8 +237,6 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 - [Report a Bug](https://github.com/unibo-dtm-se-2425-FlappyPy/artifact/issues)
 - [Request a Feature](https://github.com/unibo-dtm-se-2425-FlappyPy/artifact/issues)
-- [PyPI Package](https://pypi.org/project/FlappyPy/)
-- [Documentation](https://github.com/unibo-dtm-se-2425-FlappyPy/artifact/wiki)
 
 ---
 

@@ -5,18 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-07-17
+
+### Added
+- **Visual Sprites** - Animated bird with falling/flying states
+- **Audio System** - Background music, sound effects, and game over audio
+
 ## [1.1.0] - 2025-07-16
 
 ### Added
 - **Scoring System** - Players can now track their progress through the game
   - Real-time score display during gameplay
   - Score increments when successfully passing through pipe gaps
-  - High score tracking and persistence between game sessions
   - Score display in game over screen
 - **Enhanced Game UI** - Improved visual feedback for player actions
   - Score counter prominently displayed during gameplay
   - Game over screen shows current score and best score
-  - Visual score animation when points are earned
 
 ### Changed
 - **Code Architecture** - Enhanced maintainability and extensibility
@@ -25,8 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved separation of concerns between game objects
 
 ### Technical
+- Implement scoring system by TDD approach
 - Added comprehensive unit tests for scoring functionality
-- Enhanced CI/CD pipeline to include score system validation
 - Updated documentation with scoring system details
 - Improved error handling and logging for debugging
 
@@ -41,8 +45,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Smooth 60 FPS gameplay experience
 - **Game Controls** - Intuitive input handling
   - Spacebar and up arrow key support for bird jumping
-  - Mouse click alternative control option
-  - ESC key for game pause functionality
 - **Cross-Platform Support** - Runs on multiple operating systems
   - Windows compatibility (tested on Windows 10/11)
   - macOS compatibility (tested on macOS 12+)
@@ -66,7 +68,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Graphics** - Smooth rendering with double buffering
   - 400x600 window resolution optimized for gameplay
   - Consistent frame rate targeting 60 FPS
-  - Efficient sprite rendering and updates
 - **Physics** - Realistic bird movement simulation
   - Gravity-based falling mechanics
   - Jump velocity with natural deceleration
@@ -86,7 +87,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Continuous Integration** - Automated testing on every commit
   - Cross-platform compatibility verification
   - Multi-Python version compatibility testing
-  - Automated deployment pipeline to PyPI
 
 ---
 
