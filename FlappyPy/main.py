@@ -171,32 +171,58 @@ class Bird:
 
 """ Functions """
 def load_image(filename: str) -> pygame.Surface:
-    """Load image files with modern importlib.resources"""
+    """Load image files"""
     try:
-        ref = resources.files("FlappyPy.assets.images") / filename
-        with resources.as_file(ref) as image_path:
-            return pygame.image.load(image_path).convert_alpha()
-    except (FileNotFoundError, ImportError):
-        # Create mock surface for testing
-        return pygame.Surface((32, 32))
+        if sys.version_info >= (3, 10):
+            # For Python 3.10+
+            import importlib.resources as resources
+            ref = resources.files("FlappyPy.assets.images") / filename
+            with resources.as_file(ref) as image_path:
+                return pygame.image.load(image_path).convert_alpha()
+        else:
+            # For Python 3.9
+            import importlib.resources as resources
+            with resources.path("FlappyPy.assets.images", filename) as image_path:
+                return pygame.image.load(image_path).convert_alpha()
+    except (FileNotFoundError, ImportError, AttributeError, TypeError):
+        # Create mock surface for testing environments
+        mock_surface = pygame.Surface((32, 32))
+        mock_surface.fill((255, 255, 0))  # Yellow mock sprite
+        return mock_surface
 
 def load_sound(filename: str) -> pygame.mixer.Sound:
-    """Load sound files with modern importlib.resources"""
+    """Load sound files"""
     try:
-        ref = resources.files("FlappyPy.assets.sounds") / filename
-        with resources.as_file(ref) as sound_path:
-            return pygame.mixer.Sound(sound_path)
-    except (FileNotFoundError, ImportError):
+        if sys.version_info >= (3, 10):
+            # For Python 3.10+
+            import importlib.resources as resources
+            ref = resources.files("FlappyPy.assets.sounds") / filename
+            with resources.as_file(ref) as sound_path:
+                return pygame.mixer.Sound(sound_path)
+        else:
+            # For Python 3.9
+            import importlib.resources as resources
+            with resources.path("FlappyPy.assets.sounds", filename) as sound_path:
+                return pygame.mixer.Sound(sound_path)
+    except (FileNotFoundError, ImportError, AttributeError, TypeError):
         # Return silent sound for testing
         return pygame.mixer.Sound(buffer=b'\x00' * 1024)
 
 def load_music(filename: str) -> str:
-    """Get music file path for pygame.mixer.music"""
+    """Load music files"""
     try:
-        ref = resources.files("FlappyPy.assets.sounds") / filename
-        with resources.as_file(ref) as music_path:
-            return str(music_path)
-    except (FileNotFoundError, ImportError):
+        if sys.version_info >= (3, 10):
+            # For Python 3.10+
+            import importlib.resources as resources
+            ref = resources.files("FlappyPy.assets.sounds") / filename
+            with resources.as_file(ref) as music_path:
+                return str(music_path)
+        else:
+            # For Python 3.9
+            import importlib.resources as resources
+            with resources.path("FlappyPy.assets.sounds", filename) as music_path:
+                return str(music_path)
+    except (FileNotFoundError, ImportError, AttributeError, TypeError):
         return None
 
 def show_game_over_screen(screen, font, score):
