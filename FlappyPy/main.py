@@ -5,6 +5,7 @@ import random
 import pygame
 import sys
 
+""" Constants """
 # Game constants
 WINDOW_WIDTH = 400
 WINDOW_HEIGHT = 600
@@ -28,6 +29,7 @@ PIPE_X_START = WINDOW_WIDTH  # Start just off-screen right
 PIPE_SPAWN_INTERVAL = 120 # Frames between pipe spawns (~2s at 60 FPS)
 SAFE_MARGIN = 80 # Keeps gaps fully within the screen
 
+""" Classes """
 # Score class
 class Score:
     """Manages the player's score"""
@@ -129,6 +131,31 @@ class Bird:
         """Check if bird has hit the top boundary (ceiling)"""
         return self.y <= 0
 
+""" Functions """
+def show_game_over_screen(screen, font, score):
+    """Display game over message and final score on screen"""
+    # Clear screen with black background
+    screen.fill((0, 0, 0))
+    
+    # Create game over text
+    game_over_text = font.render("Game Over", True, (255, 0, 0))  # Red text
+    score_text = font.render(f"Final Score: {score.get_current_score()}", True, (255, 255, 255))  # White text
+    restart_text = font.render("Press SPACE to play again", True, (255, 255, 255))  # White text
+    
+    # Center the text on screen
+    game_over_rect = game_over_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2 - 50))
+    score_rect = score_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2))
+    restart_rect = restart_text.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 50))
+    
+    # Draw all text to screen
+    screen.blit(game_over_text, game_over_rect)
+    screen.blit(score_text, score_rect)
+    screen.blit(restart_text, restart_rect)
+    
+    # Update display
+    pygame.display.flip()
+
+""" Main Game Function """
 def main():
     """Main game function - our game's entry point"""
 
@@ -158,7 +185,7 @@ def main():
     # Frame counter for pipe spawning
     frames_since_spawn = 0
 
-    # Game loop
+    """ Main Function - Game loop """
     running = True
     while running:
         # Handle events
@@ -180,6 +207,7 @@ def main():
         # Update game
         if not game_over:
             
+            # Update the bird's position
             bird.update()
             
             # Update the pipes movement
@@ -188,10 +216,12 @@ def main():
             
             # Check pipe collisions
             for pipe in pipes:
+                
                 # Check if bird collides with this pipe
                 if bird.check_collision_with_pipe(pipe):
                     game_over = True
-                    print("GAME OVER! Press SPACE to play again.")
+                    show_game_over_screen(screen, font, score)  # Test the function
+                    break
                 
                 # Check if bird has passed through this pipe
                 if bird.x > pipe.x + pipe.width and not pipe.scored:
@@ -201,7 +231,7 @@ def main():
             # Check ground collision
             if bird.check_collision_with_ground():
                 game_over = True
-                print("GAME OVER! Press SPACE to play again.")
+                show_game_over_screen(screen, font, score)  # Test the function
             
             # Remove off-screen pipes
             pipes = [p for p in pipes if p.x + p.width > 0]
@@ -227,9 +257,13 @@ def main():
             # Draw the bird
             bird.draw(screen)
         
-        # Draw the score
-        score_text = font.render(f"Score: {score.get_current_score()}", True, (255, 255, 255))
-        screen.blit(score_text, (10, 10))  # Position at top-left corner
+            # Draw the score
+            score_text = font.render(f"Score: {score.get_current_score()}", True, (255, 255, 255))
+            screen.blit(score_text, (10, 10))  # Position at top-left corner
+        
+        else:
+            # If game over, show the game over screen
+            show_game_over_screen(screen, font, score)
 
         # Update the display
         pygame.display.flip()
