@@ -4,8 +4,20 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from test_helpers import setup_test_environment
 from FlappyPy.main import BIRD_START_X, BIRD_START_Y, BIRD_WIDTH, BIRD_HEIGHT
+
+import pygame
+def create_mock_surface(width=32, height=32):
+    """Create a mock surface for testing"""
+    surface = pygame.Surface((width, height))
+    surface.fill((255, 255, 0))  # Yellow rectangle
+    return surface
+
+def setup_test_environment():
+    """Initialize pygame for testing"""
+    pygame.init()
+    pygame.display.set_mode((100, 100))
+    return True
 
 class TestBird(unittest.TestCase):
     """Unit tests for the Bird class"""
@@ -52,7 +64,7 @@ class TestBird(unittest.TestCase):
         # Update should change position and sync rect
         self.bird.update()
         self.assertLess(self.bird.y, initial_y)
-        self.assertEqual(self.bird.rect.y, self.bird.y)
+        self.assertEqual(self.bird.rect.y, int(self.bird.y))
     
     def test_bird_jump(self):
         """Test that the bird jumps correctly"""

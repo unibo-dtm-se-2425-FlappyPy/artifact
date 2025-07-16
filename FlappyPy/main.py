@@ -103,8 +103,8 @@ class Bird:
         
         # Position and collision
         self.rect = self.current_sprite.get_rect()
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.x = int(self.x)
+        self.rect.y = int(self.y)
     
     def _load_image(self, filename: str) -> pygame.Surface:
         """Private helper to load bird images"""
@@ -128,7 +128,7 @@ class Bird:
         """Update the bird's position based on physics"""
         self.velocity += self.gravity
         self.y += self.velocity
-        self.rect.y = self.y
+        self.rect.y = int(self.y)
         self.check_boundaries()
     
     def check_boundaries(self):
