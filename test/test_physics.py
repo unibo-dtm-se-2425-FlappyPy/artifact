@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+import pygame
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
@@ -11,6 +12,8 @@ class TestPhysics(unittest.TestCase):
     
     def setUp(self):
         """Create a fresh bird instance for each test"""
+        pygame.init()
+        pygame.display.set_mode((1, 1))
         self.bird = Bird()
     
     def test_bird_has_physics_attributes(self):
