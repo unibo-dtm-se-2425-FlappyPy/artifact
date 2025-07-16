@@ -1,9 +1,16 @@
-import warnings
-warnings.filterwarnings("ignore", category=UserWarning, module="pygame.pkgdata")
+"""FlappyPy - a simple Flappy Bird in Python using Pygame"""
+"""Main Game Logic, Constants, Functions and Classes"""
 
+
+""" Packages and Libraries"""
+import warnings
 import random
 import pygame
 import sys
+
+# Suppress Pygame warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="pygame.pkgdata")
+
 
 """ Constants """
 # Game constants
@@ -28,6 +35,7 @@ PIPE_X_START = WINDOW_WIDTH  # Start just off-screen right
 # Pipe generation
 PIPE_SPAWN_INTERVAL = 120 # Frames between pipe spawns (~2s at 60 FPS)
 SAFE_MARGIN = 80 # Keeps gaps fully within the screen
+
 
 """ Classes """
 # Score class
@@ -131,6 +139,7 @@ class Bird:
         """Check if bird has hit the top boundary (ceiling)"""
         return self.y <= 0
 
+
 """ Functions """
 def show_game_over_screen(screen, font, score):
     """Display game over message and final score on screen"""
@@ -155,10 +164,9 @@ def show_game_over_screen(screen, font, score):
     # Update display
     pygame.display.flip()
 
-""" Main Game Function """
 def main():
-    """Main game function - our game's entry point"""
-
+    """ Main Game Function """
+    
     # Initialize Pygame
     pygame.init()
     font = pygame.font.Font(None, 36)
@@ -204,7 +212,7 @@ def main():
                     else:
                         bird.jump()
         
-        # Update game
+        # Game runs normally
         if not game_over:
             
             # Update the bird's position
@@ -261,6 +269,7 @@ def main():
             score_text = font.render(f"Score: {score.get_current_score()}", True, (255, 255, 255))
             screen.blit(score_text, (10, 10))  # Position at top-left corner
         
+        # Game over state
         else:
             # If game over, show the game over screen
             show_game_over_screen(screen, font, score)
@@ -275,6 +284,8 @@ def main():
     pygame.quit()
     sys.exit()
 
-# Entry point for the game - "if this file is being run directly!"
+
+""" Entry Point """
+# If this file is being run directly!
 if __name__ == "__main__":
     main()

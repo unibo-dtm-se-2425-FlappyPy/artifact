@@ -1,3 +1,6 @@
+"""FlappyPy - a simple Flappy Bird in Python using Pygame"""
+"""Package Initialization File"""
+
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
