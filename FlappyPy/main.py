@@ -175,6 +175,15 @@ class Bird:
 
 
 """ Functions """
+def load_sound(filename: str) -> pygame.mixer.Sound:
+    """Load sound files with error handling"""
+    try:
+        with pkg_resources.path("assets.sounds", filename) as sound_path:
+            return pygame.mixer.Sound(sound_path)
+    except (ModuleNotFoundError, FileNotFoundError):
+        # Return silent sound object for testing
+        return pygame.mixer.Sound(buffer=b'\x00' * 1024)
+
 def show_game_over_screen(screen, font, score):
     """Display game over message and final score on screen"""
     # Clear screen with black background
@@ -203,6 +212,7 @@ def main():
     
     # Initialize Pygame
     pygame.init()
+    pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
     font = pygame.font.Font(None, 36)
     
     # Create the game window
@@ -214,6 +224,20 @@ def main():
 
     # Create the bird
     bird = Bird()
+
+    # Load sound effects
+    bird_sound = load_sound("bird.mp3")
+    score_sound = load_sound("score.mp3")
+    gameover_sound = load_sound("gameover.mp3")
+
+    # Load and start background music
+    try:
+        with pkg_resources.path("assets.sounds", "music.mp3") as music_path:
+            pygame.mixer.music.load(str(music_path))
+            pygame.mixer.music.play(-1)  # -1 means loop indefinitely
+    except (ModuleNotFoundError, FileNotFoundError):
+        # Handle missing music file
+        print("Background music file not found - continuing without music")
     
     # Create initial pipes list
     pipes = []
@@ -243,9 +267,11 @@ def main():
                         pipes = []
                         score = Score()
                         frames_since_spawn = 0
+                        pygame.mixer.music.play(-1)
                     else:
                         bird.flap()
                         bird.jump()
+                        bird_sound.play()
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     bird.stop_flapping()
@@ -265,19 +291,26 @@ def main():
                 
                 # Check if bird collides with this pipe
                 if bird.check_collision_with_pipe(pipe):
+                    if not game_over:
+                        gameover_sound.play()
+                        pygame.mixer.music.stop()
                     game_over = True
-                    show_game_over_screen(screen, font, score)  # Test the function
+                    show_game_over_screen(screen, font, score)
                     break
                 
                 # Check if bird has passed through this pipe
                 if bird.x > pipe.x + pipe.width and not pipe.scored:
                     pipe.scored = True
                     score.add_point()
+                    score_sound.play()
             
             # Check ground collision
             if bird.check_collision_with_ground():
+                if not game_over:
+                    gameover_sound.play()
+                    pygame.mixer.music.stop()
                 game_over = True
-                show_game_over_screen(screen, font, score)  # Test the function
+                show_game_over_screen(screen, font, score)
             
             # Remove off-screen pipes
             pipes = [p for p in pipes if p.x + p.width > 0]
