@@ -108,8 +108,11 @@ class Bird:
     
     def _load_image(self, filename: str) -> pygame.Surface:
         """Private helper to load bird images"""
-        with pkg_resources.path("assets.images", filename) as img_path:
-            return pygame.image.load(img_path).convert_alpha()
+        try:
+            with pkg_resources.path("assets.images", filename) as img_path:
+                return pygame.image.load(img_path).convert_alpha()
+        except (ModuleNotFoundError, FileNotFoundError):
+            return pygame.Surface((30, 30))
     
     def flap(self):
         """Call this when spacebar is pressed"""

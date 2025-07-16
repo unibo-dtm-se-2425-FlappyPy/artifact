@@ -2,16 +2,19 @@ import unittest
 import sys
 import os
 
-# Add the parent directory to the system path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from FlappyPy.main import Bird, BIRD_START_X, BIRD_START_Y, BIRD_WIDTH, BIRD_HEIGHT
+from test_helpers import setup_test_environment
+from FlappyPy.main import BIRD_START_X, BIRD_START_Y, BIRD_WIDTH, BIRD_HEIGHT
 
 class TestBird(unittest.TestCase):
     """Unit tests for the Bird class"""
 
     def setUp(self):
         """Create a fresh Bird instance for each test"""
+        setup_test_environment()
+        
+        from FlappyPy.main import Bird
         self.bird = Bird()
     
     def test_bird_initialiazation(self):
@@ -20,6 +23,36 @@ class TestBird(unittest.TestCase):
         self.assertEqual(self.bird.y, BIRD_START_Y)
         self.assertEqual(self.bird.width, BIRD_WIDTH)
         self.assertEqual(self.bird.height, BIRD_HEIGHT)
+        self.assertEqual(self.bird.velocity, 0)
+        self.assertFalse(self.bird.is_flying)
+    
+    def test_bird_flap_method(self):
+        """Test that flap method changes sprite state"""
+        self.assertFalse(self.bird.is_flying)
+        self.bird.flap()
+        self.assertTrue(self.bird.is_flying)
+        self.assertEqual(self.bird.current_sprite, self.bird.flying_sprite)
+    
+    def test_bird_stop_flapping_method(self):
+        """Test that stop_flapping method resets sprite state"""
+        self.bird.flap()
+        self.assertTrue(self.bird.is_flying)
+        self.bird.stop_flapping()
+        self.assertFalse(self.bird.is_flying)
+        self.assertEqual(self.bird.current_sprite, self.bird.falling_sprite)
+    
+    def test_bird_physics_integration(self):
+        """Test that physics and sprites work together"""
+        initial_y = self.bird.y
+        
+        # Jump should set velocity and change sprite
+        self.bird.jump()
+        self.assertEqual(self.bird.velocity, -8)
+        
+        # Update should change position and sync rect
+        self.bird.update()
+        self.assertLess(self.bird.y, initial_y)
+        self.assertEqual(self.bird.rect.y, self.bird.y)
     
     def test_bird_jump(self):
         """Test that the bird jumps correctly"""
