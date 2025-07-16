@@ -8,7 +8,8 @@ import random
 import pygame
 import sys
 import pygame
-import importlib.resources as pkg_resources
+import importlib.resources as resources
+from pathlib import Path
 
 # Suppress Pygame warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="pygame.pkgdata")
@@ -26,6 +27,8 @@ BIRD_WIDTH = 30
 BIRD_HEIGHT = 30
 BIRD_START_X = 50
 BIRD_START_Y = WINDOW_HEIGHT // 2
+BIRD_JUMP_STRENGTH = -8  # How high the bird jumps
+BIRD_GRAVITY = 0.5        # Gravity effect on bird
 
 # Pipe constants
 PIPE_WIDTH = 70
@@ -91,12 +94,12 @@ class Bird:
         self.width = BIRD_WIDTH
         self.height = BIRD_HEIGHT
         self.velocity = 0
-        self.gravity = 0.5
-        
+        self.gravity = BIRD_GRAVITY
+
         # Load bird images
-        self.falling_sprite = self._load_image("bird.png")
-        self.flying_sprite = self._load_image("bird-spaced.png")
-        
+        self.falling_sprite = load_image("bird.png")
+        self.flying_sprite = load_image("bird-spaced.png")
+
         # Track current state
         self.is_flying = False
         self.current_sprite = self.falling_sprite
@@ -105,15 +108,7 @@ class Bird:
         self.rect = self.current_sprite.get_rect()
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
-    
-    def _load_image(self, filename: str) -> pygame.Surface:
-        """Private helper to load bird images"""
-        try:
-            with pkg_resources.path("assets.images", filename) as img_path:
-                return pygame.image.load(img_path).convert_alpha()
-        except (ModuleNotFoundError, FileNotFoundError):
-            return pygame.Surface((30, 30))
-    
+
     def flap(self):
         """Call this when spacebar is pressed"""
         self.is_flying = True
@@ -145,8 +140,8 @@ class Bird:
     
     def jump(self):
         """Make the bird jump up"""
-        self.velocity = -8
-    
+        self.velocity = BIRD_JUMP_STRENGTH
+
     def get_rect(self):
         """Get bird's collision rectangle for collision detection"""
         return pygame.Rect(self.x, self.y, self.width, self.height)
@@ -175,14 +170,34 @@ class Bird:
 
 
 """ Functions """
-def load_sound(filename: str) -> pygame.mixer.Sound:
-    """Load sound files with error handling"""
+def load_image(filename: str) -> pygame.Surface:
+    """Load image files with modern importlib.resources"""
     try:
-        with pkg_resources.path("assets.sounds", filename) as sound_path:
+        ref = resources.files("FlappyPy.assets.images") / filename
+        with resources.as_file(ref) as image_path:
+            return pygame.image.load(image_path).convert_alpha()
+    except (FileNotFoundError, ImportError):
+        # Create mock surface for testing
+        return pygame.Surface((32, 32))
+
+def load_sound(filename: str) -> pygame.mixer.Sound:
+    """Load sound files with modern importlib.resources"""
+    try:
+        ref = resources.files("FlappyPy.assets.sounds") / filename
+        with resources.as_file(ref) as sound_path:
             return pygame.mixer.Sound(sound_path)
-    except (ModuleNotFoundError, FileNotFoundError):
-        # Return silent sound object for testing
+    except (FileNotFoundError, ImportError):
+        # Return silent sound for testing
         return pygame.mixer.Sound(buffer=b'\x00' * 1024)
+
+def load_music(filename: str) -> str:
+    """Get music file path for pygame.mixer.music"""
+    try:
+        ref = resources.files("FlappyPy.assets.sounds") / filename
+        with resources.as_file(ref) as music_path:
+            return str(music_path)
+    except (FileNotFoundError, ImportError):
+        return None
 
 def show_game_over_screen(screen, font, score):
     """Display game over message and final score on screen"""
@@ -230,14 +245,11 @@ def main():
     score_sound = load_sound("score.mp3")
     gameover_sound = load_sound("gameover.mp3")
 
-    # Load and start background music
-    try:
-        with pkg_resources.path("assets.sounds", "music.mp3") as music_path:
-            pygame.mixer.music.load(str(music_path))
-            pygame.mixer.music.play(-1)  # -1 means loop indefinitely
-    except (ModuleNotFoundError, FileNotFoundError):
-        # Handle missing music file
-        print("Background music file not found - continuing without music")
+    # Load background music
+    music_path = load_music("music.mp3")
+    if music_path:
+        pygame.mixer.music.load(music_path)
+        pygame.mixer.music.play(-1)
     
     # Create initial pipes list
     pipes = []
@@ -267,7 +279,10 @@ def main():
                         pipes = []
                         score = Score()
                         frames_since_spawn = 0
-                        pygame.mixer.music.play(-1)
+                        music_path = load_music("music.mp3")
+                        if music_path:
+                            pygame.mixer.music.load(music_path)
+                            pygame.mixer.music.play(-1)
                     else:
                         bird.flap()
                         bird.jump()
