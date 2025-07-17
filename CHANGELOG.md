@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2025-07-17
+
+### Fixed
+- **Python 3.9 Compatibility** - Issue with asset loading system
+  - Tests were failing on Python 3.9 while passing on Python 3.10 and 3.11
+  - Root cause: importlib.resources had stricter package resolution requirements in Python 3.9
+  - Implemented version-aware asset loading that uses appropriate APIs for each Python version
+  - Added error handling for TypeError exceptions specific to Python 3.9
+  - Now uses resources.path() for Python 3.9 and resources.files() for Python 3.10+
+
 ## [1.2.0] - 2025-07-17
 
 ### Added

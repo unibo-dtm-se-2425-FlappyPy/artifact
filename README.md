@@ -217,6 +217,10 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## 📈 Version History
 
+- **1.2.1** - Minor Bug Fix
+  - Python 3.9 Compatibility
+  - Implemented version-aware asset loading that uses appropriate APIs for each Python version
+
 - **1.2.0** - Enhanced User Experience
   - Animated bird with falling/flying states
   - Background music, sound effects, and game over audio
