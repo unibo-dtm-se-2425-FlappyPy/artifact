@@ -4,7 +4,7 @@
 <img src="FlappyPy/assets/images/bird-spaced.png" alt="right" width="20" style="vertical-align:middle;"/>
 </h1>
 
-A Python implementation of the classic Flappy Bird game built with pygame.
+A Python implementation of the classic Flappy Bird game built with pygame. Read the documentation in [this link](https://unibo-dtm-se-2425-flappypy.github.io/report/).
 
 ![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)
 ![Pygame](https://img.shields.io/badge/pygame-2.6.1-green)
@@ -33,6 +33,7 @@ A Python implementation of the classic Flappy Bird game built with pygame.
 1. **Clone the repository**
    ```bash
    git clone https://github.com/unibo-dtm-se-2425-FlappyPy/artifact.git
+   
    cd artifact
    ```
 
@@ -41,12 +42,7 @@ A Python implementation of the classic Flappy Bird game built with pygame.
    pip install -r requirements.txt
    ```
 
-3. **Test your setup (optional)**
-   ```bash
-   python dev-tools/test_pygame.py
-   ```
-
-4. **Start playing!**
+3. **Start playing!**
    ```bash
    python -m FlappyPy
    ```
@@ -67,7 +63,7 @@ A Python implementation of the classic Flappy Bird game built with pygame.
 
 ## 🏗️ Project Structure
 
-```bash
+```markdown
 FlappyPy/
 ├── FlappyPy/                      # Main game package
 │   ├── assets/                    # Game assets
@@ -97,7 +93,9 @@ FlappyPy/
 1. **Clone and setup**
    ```bash
    git clone https://github.com/unibo-dtm-se-2425-FlappyPy/artifact.git
+   
    cd artifact
+   
    pip install -r requirements-dev.txt
    ```
 
@@ -110,9 +108,6 @@ FlappyPy/
    ```bash
    # Test game foundation
    python -m unittest test.test_foundation
-   
-   # Test environment setup
-   python dev-tools/test_pygame.py
    ```
 
 ### Code Structure
@@ -132,7 +127,7 @@ FlappyPy/
 
 ## 🧪 Testing
 
-FlappyPy includes comprehensive unit tests to ensure game stability:
+FlappyPy includes 55+ unit tests to ensure game stability:
 
 - **Foundation Tests** - Validate core game constants and settings
 - **Physics Tests** - Verify bird movement and gravity mechanics
@@ -239,9 +234,11 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## 🔗 Links
 
+- [Documentation](https://unibo-dtm-se-2425-flappypy.github.io/report/)
 - [Report a Bug](https://github.com/unibo-dtm-se-2425-FlappyPy/artifact/issues)
 - [Request a Feature](https://github.com/unibo-dtm-se-2425-FlappyPy/artifact/issues)
 
+
 ---
 
-**Made with ❤️ and Python** | *Happy Flying!* 🐦✨ 
+**Made with ❤️ and Python** | *Happy Flying!*
