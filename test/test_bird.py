@@ -2,16 +2,19 @@ import unittest
 import sys
 import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from FlappyPy.main import BIRD_START_X, BIRD_START_Y, BIRD_WIDTH, BIRD_HEIGHT
 
 import pygame
+
+
 def create_mock_surface(width=32, height=32):
     """Create a mock surface for testing"""
     surface = pygame.Surface((width, height))
     surface.fill((255, 255, 0))  # Yellow rectangle
     return surface
+
 
 def setup_test_environment():
     """Initialize pygame for testing"""
@@ -19,16 +22,18 @@ def setup_test_environment():
     pygame.display.set_mode((100, 100))
     return True
 
+
 class TestBird(unittest.TestCase):
     """Unit tests for the Bird class"""
 
     def setUp(self):
         """Create a fresh Bird instance for each test"""
         setup_test_environment()
-        
+
         from FlappyPy.main import Bird
+
         self.bird = Bird()
-    
+
     def test_bird_initialiazation(self):
         """Test that the bird is initialized with correct attributes"""
         self.assertEqual(self.bird.x, BIRD_START_X)
@@ -37,14 +42,14 @@ class TestBird(unittest.TestCase):
         self.assertEqual(self.bird.height, BIRD_HEIGHT)
         self.assertEqual(self.bird.velocity, 0)
         self.assertFalse(self.bird.is_flying)
-    
+
     def test_bird_flap_method(self):
         """Test that flap method changes sprite state"""
         self.assertFalse(self.bird.is_flying)
         self.bird.flap()
         self.assertTrue(self.bird.is_flying)
         self.assertEqual(self.bird.current_sprite, self.bird.flying_sprite)
-    
+
     def test_bird_stop_flapping_method(self):
         """Test that stop_flapping method resets sprite state"""
         self.bird.flap()
@@ -52,59 +57,82 @@ class TestBird(unittest.TestCase):
         self.bird.stop_flapping()
         self.assertFalse(self.bird.is_flying)
         self.assertEqual(self.bird.current_sprite, self.bird.falling_sprite)
-    
+
     def test_bird_physics_integration(self):
         """Test that physics and sprites work together"""
         initial_y = self.bird.y
-        
+
         # Jump should set velocity and change sprite
         self.bird.jump()
         self.assertEqual(self.bird.velocity, -8)
-        
+
         # Update should change position and sync rect
         self.bird.update()
         self.assertLess(self.bird.y, initial_y)
         self.assertEqual(self.bird.rect.y, int(self.bird.y))
-    
+
     def test_bird_jump(self):
         """Test that the bird jumps correctly"""
         initial_y = self.bird.y
         self.bird.jump()
-        
+
         self.assertEqual(self.bird.velocity, -8, "Jump should set velocity to -8")
-        self.assertEqual(self.bird.y, initial_y, "Bird's y position should not change until next update()")
-        
+        self.assertEqual(
+            self.bird.y,
+            initial_y,
+            "Bird's y position should not change until next update()",
+        )
+
         self.bird.update()
-        self.assertLess(self.bird.y, initial_y, "Bird should move up after jump and update")
-    
+        self.assertLess(
+            self.bird.y, initial_y, "Bird should move up after jump and update"
+        )
+
     def test_multiple_jumps(self):
         """Test that multiple jumps work correctly"""
         initial_y = self.bird.y
-        
+
         # Multiple jumps should reset velocity each time
         self.bird.jump()
         self.assertEqual(self.bird.velocity, -8, "First jump should set velocity to -8")
-        
+
         self.bird.jump()
-        self.assertEqual(self.bird.velocity, -8, "Socond jump should reset velocity to -8")
-        
+        self.assertEqual(
+            self.bird.velocity, -8, "Socond jump should reset velocity to -8"
+        )
+
         self.bird.jump()
-        self.assertEqual(self.bird.velocity, -8, "Third jump should reset velocity to -8")
+        self.assertEqual(
+            self.bird.velocity, -8, "Third jump should reset velocity to -8"
+        )
 
         # Psition should still be unchanged until next update
-        self.assertEqual(self.bird.y, initial_y, "Bird's y position should not change until next update()")
-        
-        
+        self.assertEqual(
+            self.bird.y,
+            initial_y,
+            "Bird's y position should not change until next update()",
+        )
+
         self.bird.update()
-        self.assertLess(self.bird.y, initial_y, "Bird should move up after jump and update()")
-    
+        self.assertLess(
+            self.bird.y, initial_y, "Bird should move up after jump and update()"
+        )
+
     def test_bird_position_bounds(self):
         """Test bird positioning relative to screen"""
-        self.assertGreaterEqual(self.bird.x, 0, "Bird's x position should not be negative")
-        self.assertGreaterEqual(self.bird.y, 0, "Bird's y position should not be negative")
-        self.assertLessEqual(self.bird.x, 400, "Bird's x position should not exceed window width")
-        self.assertLessEqual(self.bird.y, 600, "Bird's y position should not exceed window height")
+        self.assertGreaterEqual(
+            self.bird.x, 0, "Bird's x position should not be negative"
+        )
+        self.assertGreaterEqual(
+            self.bird.y, 0, "Bird's y position should not be negative"
+        )
+        self.assertLessEqual(
+            self.bird.x, 400, "Bird's x position should not exceed window width"
+        )
+        self.assertLessEqual(
+            self.bird.y, 600, "Bird's y position should not exceed window height"
+        )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
-        

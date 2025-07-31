@@ -3,14 +3,15 @@ import sys
 import os
 
 # Add the parent directory to the system path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from FlappyPy.main import(
+from FlappyPy.main import (
     WINDOW_WIDTH,
     WINDOW_HEIGHT,
     FPS,
     BACKGROUND_COLOR,
 )
+
 
 class TestFoundation(unittest.TestCase):
     """Test cases for the foundation of the game"""
@@ -29,16 +30,17 @@ class TestFoundation(unittest.TestCase):
         """Test if the frame rate is to appropriate value"""
         self.assertEqual(FPS, 60)
         self.assertGreater(FPS, 30)
-    
+
     def test_background_color(self):
         """Test if the background color is valid RGB tuple"""
         self.assertIsInstance(BACKGROUND_COLOR, tuple)
         self.assertEqual(len(BACKGROUND_COLOR), 3)
-    
+
         for color_value in BACKGROUND_COLOR:
             self.assertGreaterEqual(color_value, 0)
             self.assertLessEqual(color_value, 255)
             self.assertIsInstance(color_value, int)
-    
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     unittest.main()
