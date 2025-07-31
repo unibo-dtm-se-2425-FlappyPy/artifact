@@ -2,15 +2,14 @@
 
 """Main Game Logic, Constants, Functions and Classes"""
 
-
-""" Packages and Libraries"""
+import sys
 import warnings
 import random
+from importlib import resources
+
 import pygame
-import sys
-import pygame
-import importlib.resources as resources
-from pathlib import Path
+
+""" Packages and Libraries"""
 
 # Suppress Pygame warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="pygame.pkgdata")
@@ -188,15 +187,11 @@ def load_image(filename: str) -> pygame.Surface:
     try:
         if sys.version_info >= (3, 10):
             # For Python 3.10+
-            import importlib.resources as resources
-
             ref = resources.files("FlappyPy.assets.images") / filename
             with resources.as_file(ref) as image_path:
                 return pygame.image.load(image_path).convert_alpha()
         else:
             # For Python 3.9
-            import importlib.resources as resources
-
             with resources.path("FlappyPy.assets.images", filename) as image_path:
                 return pygame.image.load(image_path).convert_alpha()
     except (FileNotFoundError, ImportError, AttributeError, TypeError):
@@ -211,15 +206,11 @@ def load_sound(filename: str) -> pygame.mixer.Sound:
     try:
         if sys.version_info >= (3, 10):
             # For Python 3.10+
-            import importlib.resources as resources
-
             ref = resources.files("FlappyPy.assets.sounds") / filename
             with resources.as_file(ref) as sound_path:
                 return pygame.mixer.Sound(sound_path)
         else:
             # For Python 3.9
-            import importlib.resources as resources
-
             with resources.path("FlappyPy.assets.sounds", filename) as sound_path:
                 return pygame.mixer.Sound(sound_path)
     except (FileNotFoundError, ImportError, AttributeError, TypeError):
@@ -232,15 +223,11 @@ def load_music(filename: str) -> str:
     try:
         if sys.version_info >= (3, 10):
             # For Python 3.10+
-            import importlib.resources as resources
-
             ref = resources.files("FlappyPy.assets.sounds") / filename
             with resources.as_file(ref) as music_path:
                 return str(music_path)
         else:
             # For Python 3.9
-            import importlib.resources as resources
-
             with resources.path("FlappyPy.assets.sounds", filename) as music_path:
                 return str(music_path)
     except (FileNotFoundError, ImportError, AttributeError, TypeError):
